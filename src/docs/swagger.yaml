@@ -1,4 +1,16 @@
 definitions:
+  forms.ReportForm:
+    properties:
+      deviceInfo:
+        example: 00:11:22:33:FF:EE
+        type: string
+      latitude:
+        example: 37.5428147089301
+        type: number
+      longitude:
+        example: 126.96631451849314
+        type: number
+    type: object
   forms.UserRegistrationForm:
     properties:
       is_student:
@@ -18,9 +30,46 @@ definitions:
         example: "01043214321"
         type: string
     type: object
+  models.ReportDocument:
+    properties:
+      deviceInfo:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      recordedAudioURL:
+        type: string
+      reporterID:
+        type: integer
+    type: object
 info:
   contact: {}
+  title: ShoeGuard Main Backend API
+  version: "1.0"
 paths:
+  /report:
+    post:
+      consumes:
+      - application/json
+      description: Report Request with given information
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/forms.ReportForm'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ReportDocument'
+      security:
+      - BasicAuth: []
+      summary: Report Request
   /users/register:
     post:
       consumes:
@@ -41,4 +90,7 @@ paths:
           schema:
             $ref: '#/definitions/forms.UserRegistrationForm'
       summary: Register an user with given information
+securityDefinitions:
+  BasicAuth:
+    type: basic
 swagger: "2.0"
