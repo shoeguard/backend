@@ -2,6 +2,7 @@ package routes
 
 import (
 	"shoeguard-main-backend/cmd/server/controllers"
+	"shoeguard-main-backend/cmd/server/middlewares"
 	"shoeguard-main-backend/configs"
 
 	_ "shoeguard-main-backend/docs"
@@ -18,6 +19,10 @@ func SetupRoutes(app *fiber.App) {
 			return c.Redirect("./swagger/")
 		})
 	}
+
 	usersGroup := app.Group("/users")
 	usersGroup.Post("/register", controllers.Register)
+	reportGroup := app.Group("/report")
+	reportGroup.Use(middlewares.BasicAuthMiddleware())
+	reportGroup.Post("", controllers.Report)
 }
