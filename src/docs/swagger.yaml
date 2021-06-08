@@ -1,0 +1,44 @@
+definitions:
+  forms.UserRegistrationForm:
+    properties:
+      is_student:
+        type: boolean
+      nickname:
+        example: mengmota
+        type: string
+      partner_phone_number:
+        example: "01012341234"
+        type: string
+      password:
+        description: password field
+        example: the!@#$pas123
+        type: string
+      phone_number:
+        description: username field
+        example: "01043214321"
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Register user
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/forms.UserRegistrationForm'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/forms.UserRegistrationForm'
+      summary: Register an user with given information
+swagger: "2.0"

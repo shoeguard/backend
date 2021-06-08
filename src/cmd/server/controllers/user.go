@@ -8,6 +8,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// Register godoc
+// @Summary Register an user with given information
+// @Description Register user
+// @Accept json
+// @Produce json
+// @Param body body forms.UserRegistrationForm true "body"
+// @Success 201 {object} forms.UserRegistrationForm
+// @Router /users/register [post]
 func Register(c *fiber.Ctx) error {
 	form := forms.UserRegistrationForm{}
 
@@ -38,5 +46,5 @@ func Register(c *fiber.Ctx) error {
 		}
 	}
 
-	return c.JSON(user)
+	return c.Status(201).JSON(form)
 }
