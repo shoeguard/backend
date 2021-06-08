@@ -37,7 +37,7 @@ func (user *User) Create() error {
 
 func (user *User) SetUser(phoneNumber string) error {
 	db := utils.GetDB()
-	if result := db.Where("phone_number = ?", phoneNumber).Find(&user); result != nil {
+	if result := db.Find(&user, "phone_number = ?", phoneNumber); result.Error != nil {
 		return result.Error
 	}
 	return nil
@@ -45,5 +45,6 @@ func (user *User) SetUser(phoneNumber string) error {
 
 func (user *User) IsPasswordCorrect(password string) bool {
 	hashedPassword := user.Password
-	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password)) == nil
+	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+	return err == nil
 }
