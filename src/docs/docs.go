@@ -24,6 +24,42 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/report": {
+            "post": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Report Request with given information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Report Request",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/forms.ReportForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.ReportDocument"
+                        }
+                    }
+                }
+            }
+        },
         "/users/register": {
             "post": {
                 "description": "Register user",
@@ -57,6 +93,23 @@ var doc = `{
         }
     },
     "definitions": {
+        "forms.ReportForm": {
+            "type": "object",
+            "properties": {
+                "deviceInfo": {
+                    "type": "string",
+                    "example": "00:11:22:33:FF:EE"
+                },
+                "latitude": {
+                    "type": "number",
+                    "example": 37.5428147089301
+                },
+                "longitude": {
+                    "type": "number",
+                    "example": 126.96631451849314
+                }
+            }
+        },
         "forms.UserRegistrationForm": {
             "type": "object",
             "properties": {
@@ -82,6 +135,31 @@ var doc = `{
                     "example": "01043214321"
                 }
             }
+        },
+        "models.ReportDocument": {
+            "type": "object",
+            "properties": {
+                "deviceInfo": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "recordedAudioURL": {
+                    "type": "string"
+                },
+                "reporterID": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
         }
     }
 }`
@@ -97,11 +175,11 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "",
+	Version:     "1.0",
 	Host:        "",
 	BasePath:    "",
 	Schemes:     []string{},
-	Title:       "",
+	Title:       "ShoeGuard Main Backend API",
 	Description: "",
 }
 
