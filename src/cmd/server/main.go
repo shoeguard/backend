@@ -8,6 +8,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// @title ShoeGuard Main Backend API
+// @version 1.0
+// @securityDefinitions.basic BasicAuth
 func main() {
 	models.MigrateModels()
 	app := fiber.New()
