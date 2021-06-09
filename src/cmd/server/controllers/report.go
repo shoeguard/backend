@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"shoeguard-main-backend/cmd/server/customErrors"
 	"shoeguard-main-backend/cmd/server/forms"
 	"shoeguard-main-backend/cmd/server/models"
 	"shoeguard-main-backend/cmd/server/utils"
@@ -56,13 +57,13 @@ func getReportResponsesOfPartner(user models.User) ([]forms.ReportResponse, erro
 // @Produce json
 // @Param body body forms.ReportRequestForm true "body"
 // @Success 201 {object} forms.ReportResponse
+// @Success 400 {object} customErrors.ErrorResponse
 // @Router /report [post]
 func Report(c *fiber.Ctx) error {
 	// validate
 	form := forms.ReportRequestForm{}
 	if err := utils.ParseAndValidateForm(c, &form); err != nil {
-		return c.Status(400).
-			JSON(map[string]interface{}{"error": "form error", "detail": err.Error()})
+		return customErrors.Response400WithError(c, customErrors.FormError, err.Error())
 	}
 
 	// create report
@@ -74,8 +75,7 @@ func Report(c *fiber.Ctx) error {
 		Longitude:  form.Longitude,
 	}
 	if err := report.Create(); err != nil {
-		return c.Status(500).
-			JSON(map[string]interface{}{"error": "unknown error", "detail": err.Error()})
+		return c.SendStatus(500)
 	}
 
 	// response report
@@ -98,6 +98,7 @@ func Report(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Success 200 {object} forms.ReportsResponse
+// @Success 400 {object} customErrors.ErrorResponse
 // @Router /report [get]
 func GetReports(c *fiber.Ctx) error {
 	user, _ := getUser(c.Locals("username").(string))
@@ -135,6 +136,7 @@ func GetReports(c *fiber.Ctx) error {
 // @Param report_id path int true "Report ID"
 // @Param body body forms.AddRecordedAudioURLForm true "body"
 // @Success 200 {object} forms.ReportResponse
+// @Success 400 {object} customErrors.ErrorResponse
 // @Router /report/{report_id} [patch]
 func AddRecordedAudioURL(c *fiber.Ctx) error {
 	// validate
@@ -142,12 +144,14 @@ func AddRecordedAudioURL(c *fiber.Ctx) error {
 	idStr := c.Params("id")
 	id, err := strconv.ParseUint(idStr, 10, 64)
 	if err != nil {
-		return c.Status(400).
-			JSON(map[string]interface{}{"error": "parameter error", "detail": "the paramter 'id' should be numeric"})
+		return customErrors.Response400WithError(
+			c,
+			customErrors.ParamterError,
+			"the paramter 'id' should be numeric.",
+		)
 	}
 	if err := utils.ParseAndValidateForm(c, &form); err != nil {
-		return c.Status(400).
-			JSON(map[string]interface{}{"error": "form error", "detail": err.Error()})
+		return customErrors.Response400WithError(c, customErrors.FormError, err.Error())
 	}
 
 	// if no such report
