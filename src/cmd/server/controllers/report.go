@@ -10,12 +10,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func getUser(phoneNumber string) (user models.User, err error) {
-	user = models.User{}
-	err = user.SetUser(phoneNumber)
-	return
-}
-
 func getReportResponses(user models.User) ([]forms.ReportResponse, error) {
 	var reports []models.Report
 	reportDAO := models.ReportDAO{}
