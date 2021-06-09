@@ -17,6 +17,7 @@ FROM alpine
 
 COPY --from=builder /usr/src/app/bin/main ./main
 
-EXPOSE 8080
+ENV PORT=80
+EXPOSE 80
 
 ENTRYPOINT ["./main"]
