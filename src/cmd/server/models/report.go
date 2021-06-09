@@ -8,7 +8,7 @@ import (
 
 type Report struct {
 	gorm.Model
-	ReporterID       int
+	ReporterID       uint
 	Reporter         User
 	DeviceInfo       string `gorm:"not null"`
 	RecordedAudioURL string
