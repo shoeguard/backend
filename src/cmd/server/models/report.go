@@ -30,3 +30,10 @@ func (report *Report) Save() error {
 	db := utils.GetDB()
 	return db.Save(&report).Error
 }
+
+type ReportDAO struct{}
+
+func (reportDAO ReportDAO) GetReportsByReporterID(reports *[]Report, id uint) error {
+	db := utils.GetDB()
+	return db.Find(&reports, "reporter_id = ?", id).Error
+}

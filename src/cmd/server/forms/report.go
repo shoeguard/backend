@@ -21,3 +21,8 @@ type ReportResponse struct {
 type AddRecordedAudioURLForm struct {
 	AudioURL string `json:"audio_url"`
 }
+
+type ReportsResponse struct {
+	IsReportOfStudent bool             `json:"is_report_of_student"`
+	Reports           []ReportResponse `json:"reports"`
+}
