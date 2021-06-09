@@ -79,3 +79,41 @@ func GetMyInfo(c *fiber.Ctx) error {
 	}
 	return c.JSON(resp)
 }
+
+// UpdateMyInfo godoc
+// @Summary Update my info
+// @Description Update my profile
+// @Accept json
+// @Produce json
+// @Security BasicAuth
+// @Param body body forms.UserModifiableInfo true "body"
+// @Success 200 {object} forms.UserReadOnlyInfo
+// @Failure 401 string Unauthorized
+// @Router /users [patch]
+func UpdateMyInfo(c *fiber.Ctx) error {
+	// validate
+	form := forms.UserModifiableInfo{}
+	if err := utils.ParseAndValidateForm(c, &form); err != nil {
+		return customErrors.Response400WithError(c, customErrors.FormError, err.Error())
+	}
+
+	user, _ := getUser(c.Locals("usermame").(string))
+
+	if form.Password != "" {
+		user.Password = form.Password
+		user.HashPassword()
+	}
+	if form.IsStudent != nil {
+		user.IsStudent = *form.IsStudent
+	}
+	if form.PartnerPhoneNumber != "" {
+		user.PartnerPhoneNumber = form.PartnerPhoneNumber
+	}
+	if form.Nickname != "" {
+		user.Nickname = form.Nickname
+	}
+
+	user.Save()
+
+	return GetMyInfo(c)
+}
