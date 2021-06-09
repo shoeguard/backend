@@ -50,5 +50,32 @@ func Register(c *fiber.Ctx) error {
 		return c.SendStatus(500)
 	}
 
-	return c.Status(201).JSON(form)
+	resp := forms.UserReadOnlyInfo{
+		PhoneNumber:        form.PhoneNumber,
+		IsStudent:          form.IsStudent,
+		PartnerPhoneNumber: form.PartnerPhoneNumber,
+		Nickname:           form.Nickname,
+	}
+
+	return c.Status(201).JSON(resp)
+}
+
+// GetMyInfo godoc
+// @Summary Get my info
+// @Description Get my profile
+// @Accept json
+// @Produce json
+// @Security BasicAuth
+// @Success 200 {object} forms.UserReadOnlyInfo
+// @Failure 401 string Unauthorized
+// @Router /users [get]
+func GetMyInfo(c *fiber.Ctx) error {
+	user, _ := getUser(c.Locals("usermame").(string))
+	resp := forms.UserReadOnlyInfo{
+		PhoneNumber:        user.PhoneNumber,
+		IsStudent:          user.IsStudent,
+		PartnerPhoneNumber: user.PartnerPhoneNumber,
+		Nickname:           user.Nickname,
+	}
+	return c.JSON(resp)
 }
