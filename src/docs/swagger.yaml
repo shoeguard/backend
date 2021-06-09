@@ -52,6 +52,36 @@ definitions:
           $ref: '#/definitions/forms.ReportResponse'
         type: array
     type: object
+  forms.UserModifiableInfo:
+    properties:
+      is_student:
+        type: boolean
+      nickname:
+        example: mengmota
+        type: string
+      partner_phone_number:
+        example: "01012341234"
+        type: string
+      password:
+        description: password field
+        example: the!@#$pas123
+        type: string
+    type: object
+  forms.UserReadOnlyInfo:
+    properties:
+      is_student:
+        type: boolean
+      nickname:
+        example: mengmota
+        type: string
+      partner_phone_number:
+        example: "01012341234"
+        type: string
+      phone_number:
+        description: username field
+        example: "01043214321"
+        type: string
+    type: object
   forms.UserRegistrationForm:
     properties:
       is_student:
@@ -92,6 +122,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/customErrors.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
       security:
       - BasicAuth: []
       summary: Get reports
@@ -148,9 +182,57 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/customErrors.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
       security:
       - BasicAuth: []
       summary: Add recorded audio url
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get my profile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/forms.UserReadOnlyInfo'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Get my info
+    patch:
+      consumes:
+      - application/json
+      description: Update my profile
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/forms.UserModifiableInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/forms.UserReadOnlyInfo'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Update my info
   /users/register:
     post:
       consumes:
@@ -169,7 +251,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/forms.UserRegistrationForm'
+            $ref: '#/definitions/forms.UserReadOnlyInfo'
         "400":
           description: Bad Request
           schema:
