@@ -9,6 +9,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func getUser(phoneNumber string) (user models.User, err error) {
+	user = models.User{}
+	err = user.SetUser(phoneNumber)
+	return
+}
+
 // Register godoc
 // @Summary Register an user with given information
 // @Description Register user
