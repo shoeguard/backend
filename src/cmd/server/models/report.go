@@ -20,3 +20,13 @@ func (report *Report) Create() error {
 	db := utils.GetDB()
 	return db.Create(&report).Error
 }
+
+func (report *Report) SetReportByID(id uint64) error {
+	db := utils.GetDB()
+	return db.First(&report, id).Error
+}
+
+func (report *Report) Save() error {
+	db := utils.GetDB()
+	return db.Save(&report).Error
+}
