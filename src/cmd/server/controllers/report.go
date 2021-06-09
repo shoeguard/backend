@@ -15,10 +15,10 @@ import (
 // @Accept json
 // @Produce json
 // @Param body body forms.ReportForm true "body"
-// @Success 201 {object} models.ReportDocument
+// @Success 201 {object} form.ReportResponse
 // @Router /report [post]
 func Report(c *fiber.Ctx) error {
-	form := forms.ReportForm{}
+	form := forms.ReportRequestForm{}
 
 	// parsing body
 	if err := c.BodyParser(&form); err != nil {
@@ -48,5 +48,13 @@ func Report(c *fiber.Ctx) error {
 			JSON(map[string]interface{}{"error": "unknown error", "detail": err.Error()})
 	}
 
-	return c.Status(201).JSON(report)
+	response := forms.ReportResponse{
+		CreatedAt:  report.CreatedAt,
+		UpdatedAt:  report.UpdatedAt,
+		DeviceInfo: report.DeviceInfo,
+		Latitude:   report.Latitude,
+		Longitude:  report.Longitude,
+	}
+
+	return c.Status(201).JSON(response)
 }
