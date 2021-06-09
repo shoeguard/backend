@@ -51,7 +51,7 @@ func getReportResponsesOfPartner(user models.User) ([]forms.ReportResponse, erro
 // @Produce json
 // @Param body body forms.ReportRequestForm true "body"
 // @Success 201 {object} forms.ReportResponse
-// @Success 400 {object} customErrors.ErrorResponse
+// @Failure 400 {object} customErrors.ErrorResponse
 // @Router /report [post]
 func Report(c *fiber.Ctx) error {
 	// validate
@@ -92,7 +92,8 @@ func Report(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Success 200 {object} forms.ReportsResponse
-// @Success 400 {object} customErrors.ErrorResponse
+// @Failure 400 {object} customErrors.ErrorResponse
+// @Failure 401 string Unauthorized
 // @Router /report [get]
 func GetReports(c *fiber.Ctx) error {
 	user, _ := getUser(c.Locals("username").(string))
@@ -130,7 +131,8 @@ func GetReports(c *fiber.Ctx) error {
 // @Param report_id path int true "Report ID"
 // @Param body body forms.AddRecordedAudioURLForm true "body"
 // @Success 200 {object} forms.ReportResponse
-// @Success 400 {object} customErrors.ErrorResponse
+// @Failure 400 {object} customErrors.ErrorResponse
+// @Failure 401 string Unauthorized
 // @Router /report/{report_id} [patch]
 func AddRecordedAudioURL(c *fiber.Ctx) error {
 	// validate
