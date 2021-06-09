@@ -51,6 +51,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/customErrors.ErrorResponse"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             },
@@ -140,6 +146,83 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/customErrors.ErrorResponse"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Get my profile",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get my info",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/forms.UserReadOnlyInfo"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Update my profile",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update my info",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/forms.UserModifiableInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/forms.UserReadOnlyInfo"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
@@ -169,7 +252,7 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/forms.UserRegistrationForm"
+                            "$ref": "#/definitions/forms.UserReadOnlyInfo"
                         }
                     },
                     "400": {
@@ -259,6 +342,48 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/forms.ReportResponse"
                     }
+                }
+            }
+        },
+        "forms.UserModifiableInfo": {
+            "type": "object",
+            "properties": {
+                "is_student": {
+                    "type": "boolean"
+                },
+                "nickname": {
+                    "type": "string",
+                    "example": "mengmota"
+                },
+                "partner_phone_number": {
+                    "type": "string",
+                    "example": "01012341234"
+                },
+                "password": {
+                    "description": "password field",
+                    "type": "string",
+                    "example": "the!@#$pas123"
+                }
+            }
+        },
+        "forms.UserReadOnlyInfo": {
+            "type": "object",
+            "properties": {
+                "is_student": {
+                    "type": "boolean"
+                },
+                "nickname": {
+                    "type": "string",
+                    "example": "mengmota"
+                },
+                "partner_phone_number": {
+                    "type": "string",
+                    "example": "01012341234"
+                },
+                "phone_number": {
+                    "description": "username field",
+                    "type": "string",
+                    "example": "01043214321"
                 }
             }
         },
