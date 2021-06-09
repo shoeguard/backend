@@ -43,6 +43,11 @@ func (user *User) SetUser(phoneNumber string) error {
 	return nil
 }
 
+func (user *User) Save() error {
+	db := utils.GetDB()
+	return db.Save(&user).Error
+}
+
 func (user *User) IsPasswordCorrect(password string) bool {
 	hashedPassword := user.Password
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
