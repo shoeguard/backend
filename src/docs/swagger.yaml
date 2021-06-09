@@ -1,7 +1,7 @@
 definitions:
   forms.ReportRequestForm:
     properties:
-      deviceInfo:
+      device_info:
         example: 00:11:22:33:FF:EE
         type: string
       latitude:
@@ -13,18 +13,22 @@ definitions:
     type: object
   forms.ReportResponse:
     properties:
-      createdAt:
+      created_at:
         type: string
-      deviceInfo:
+      device_info:
         example: 00:11:22:33:FF:EE
         type: string
+      id:
+        type: integer
       latitude:
         example: 37.5428147089301
         type: number
       longitude:
         example: 126.96631451849314
         type: number
-      updatedAt:
+      recorded_audio_url:
+        type: string
+      updated_at:
         type: string
     type: object
   forms.UserRegistrationForm:
