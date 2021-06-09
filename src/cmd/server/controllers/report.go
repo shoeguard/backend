@@ -49,11 +49,13 @@ func Report(c *fiber.Ctx) error {
 	}
 
 	response := forms.ReportResponse{
-		CreatedAt:  report.CreatedAt,
-		UpdatedAt:  report.UpdatedAt,
-		DeviceInfo: report.DeviceInfo,
-		Latitude:   report.Latitude,
-		Longitude:  report.Longitude,
+		ID:               report.ID,
+		CreatedAt:        report.CreatedAt,
+		UpdatedAt:        report.UpdatedAt,
+		RecordedAudioURL: report.RecordedAudioURL,
+		DeviceInfo:       report.DeviceInfo,
+		Latitude:         report.Latitude,
+		Longitude:        report.Longitude,
 	}
 
 	return c.Status(201).JSON(response)

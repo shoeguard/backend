@@ -96,7 +96,7 @@ var doc = `{
         "forms.ReportRequestForm": {
             "type": "object",
             "properties": {
-                "deviceInfo": {
+                "device_info": {
                     "type": "string",
                     "example": "00:11:22:33:FF:EE"
                 },
@@ -113,12 +113,15 @@ var doc = `{
         "forms.ReportResponse": {
             "type": "object",
             "properties": {
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
-                "deviceInfo": {
+                "device_info": {
                     "type": "string",
                     "example": "00:11:22:33:FF:EE"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "latitude": {
                     "type": "number",
@@ -128,7 +131,10 @@ var doc = `{
                     "type": "number",
                     "example": 126.96631451849314
                 },
-                "updatedAt": {
+                "recorded_audio_url": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
