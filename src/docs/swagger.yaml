@@ -1,4 +1,9 @@
 definitions:
+  forms.AddRecordedAudioURLForm:
+    properties:
+      audio_url:
+        type: string
+    type: object
   forms.ReportRequestForm:
     properties:
       device_info:
@@ -77,6 +82,33 @@ paths:
       security:
       - BasicAuth: []
       summary: Report Request
+  /report/{report_id}:
+    patch:
+      consumes:
+      - application/json
+      description: Add recorded audio url to given ID's report
+      parameters:
+      - description: Report ID
+        in: path
+        name: report_id
+        required: true
+        type: integer
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/forms.AddRecordedAudioURLForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/forms.ReportResponse'
+      security:
+      - BasicAuth: []
+      summary: Add recorded audio url
   /users/register:
     post:
       consumes:

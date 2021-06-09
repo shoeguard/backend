@@ -60,6 +60,49 @@ var doc = `{
                 }
             }
         },
+        "/report/{report_id}": {
+            "patch": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Add recorded audio url to given ID's report",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Add recorded audio url",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Report ID",
+                        "name": "report_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/forms.AddRecordedAudioURLForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/forms.ReportResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/users/register": {
             "post": {
                 "description": "Register user",
@@ -93,6 +136,14 @@ var doc = `{
         }
     },
     "definitions": {
+        "forms.AddRecordedAudioURLForm": {
+            "type": "object",
+            "properties": {
+                "audio_url": {
+                    "type": "string"
+                }
+            }
+        },
         "forms.ReportRequestForm": {
             "type": "object",
             "properties": {
