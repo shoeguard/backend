@@ -21,6 +21,9 @@ func SetupRoutes(app *fiber.App) {
 
 	usersGroup := app.Group("/users")
 	usersGroup.Post("/register", controllers.Register)
+	usersGroupProtected := usersGroup.Group("")
+	usersGroupProtected.Get("/", controllers.GetMyInfo)
+	usersGroupProtected.Patch("/", controllers.UpdateMyInfo)
 	reportGroup := app.Group("/report")
 	reportGroup.Use(middlewares.BasicAuthMiddleware())
 	reportGroup.Post("", controllers.Report)
