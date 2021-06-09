@@ -15,10 +15,43 @@ func getUser(phoneNumber string) (user models.User, err error) {
 	return
 }
 
+func getReportResponses(user models.User) ([]forms.ReportResponse, error) {
+	var reports []models.Report
+	reportDAO := models.ReportDAO{}
+
+	if err := reportDAO.GetReportsByReporterID(&reports, user.ID); err != nil {
+		return nil, err
+	}
+
+	// convert []models.Report to []forms.ReportResponse
+
+	reportResponses := make([]forms.ReportResponse, len(reports))
+	for i, report := range reports {
+		reportResponses[i].ID = report.ID
+		reportResponses[i].CreatedAt = report.CreatedAt
+		reportResponses[i].UpdatedAt = report.UpdatedAt
+		reportResponses[i].RecordedAudioURL = report.RecordedAudioURL
+		reportResponses[i].DeviceInfo = report.DeviceInfo
+		reportResponses[i].Latitude = report.Latitude
+		reportResponses[i].Longitude = report.Longitude
+	}
+
+	return reportResponses, nil
+}
+
+func getReportResponsesOfPartner(user models.User) ([]forms.ReportResponse, error) {
+	partnerUser, err := getUser(user.PartnerPhoneNumber)
+	if err != nil {
+		return nil, err
+	}
+
+	return getReportResponses(partnerUser)
+}
+
 // Report godoc
 // @Summary Report Request
 // @Description Report Request with given information
-// @security BasicAuth
+// @Security BasicAuth
 // @Accept json
 // @Produce json
 // @Param body body forms.ReportRequestForm true "body"
@@ -58,10 +91,45 @@ func Report(c *fiber.Ctx) error {
 	return c.Status(201).JSON(response)
 }
 
+// GetReports godoc
+// @Summary Get reports
+// @Description Get reports from me or from my partners
+// @Security BasicAuth
+// @Accept json
+// @Produce json
+// @Success 200 {object} forms.ReportsResponse
+// @Router /report [get]
+func GetReports(c *fiber.Ctx) error {
+	user, _ := getUser(c.Locals("username").(string))
+
+	response := forms.ReportsResponse{IsReportOfStudent: !user.IsStudent}
+	var err error
+
+	if user.IsStudent {
+		var reports []forms.ReportResponse
+		reports, err = getReportResponses(user)
+		response.Reports = reports
+	} else {
+		if user.PartnerPhoneNumber == "" {
+			return c.Status(400).
+				JSON(map[string]interface{}{"error": "no child", "detail": "you haven't registered your child."})
+		}
+		var reports []forms.ReportResponse
+		reports, err = getReportResponsesOfPartner(user)
+		response.Reports = reports
+	}
+
+	if err != nil {
+		return c.SendStatus(500)
+	}
+
+	return c.JSON(response)
+}
+
 // AddRecordedAudioURL godoc
 // @Summary Add recorded audio url
 // @Description Add recorded audio url to given ID's report
-// @security BasicAuth
+// @Security BasicAuth
 // @Accept json
 // @Produce json
 // @Param report_id path int true "Report ID"
