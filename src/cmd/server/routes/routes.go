@@ -25,4 +25,5 @@ func SetupRoutes(app *fiber.App) {
 	reportGroup := app.Group("/report")
 	reportGroup.Use(middlewares.BasicAuthMiddleware())
 	reportGroup.Post("", controllers.Report)
+	reportGroup.Patch("/:id", controllers.AddRecordedAudioURL)
 }
