@@ -45,6 +45,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/forms.ReportsResponse"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.ErrorResponse"
+                        }
                     }
                 }
             },
@@ -78,6 +84,12 @@ var doc = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/forms.ReportResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.ErrorResponse"
                         }
                     }
                 }
@@ -122,6 +134,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/forms.ReportResponse"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.ErrorResponse"
+                        }
                     }
                 }
             }
@@ -153,12 +171,29 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/forms.UserRegistrationForm"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.ErrorResponse"
+                        }
                     }
                 }
             }
         }
     },
     "definitions": {
+        "customErrors.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "type": "string"
+                },
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
         "forms.AddRecordedAudioURLForm": {
             "type": "object",
             "properties": {
