@@ -14,8 +14,8 @@ import (
 // @security BasicAuth
 // @Accept json
 // @Produce json
-// @Param body body forms.ReportForm true "body"
-// @Success 201 {object} form.ReportResponse
+// @Param body body forms.ReportRequestForm true "body"
+// @Success 201 {object} forms.ReportResponse
 // @Router /report [post]
 func Report(c *fiber.Ctx) error {
 	form := forms.ReportRequestForm{}

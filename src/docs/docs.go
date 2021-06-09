@@ -46,7 +46,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/forms.ReportForm"
+                            "$ref": "#/definitions/forms.ReportRequestForm"
                         }
                     }
                 ],
@@ -54,7 +54,7 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.ReportDocument"
+                            "$ref": "#/definitions/forms.ReportResponse"
                         }
                     }
                 }
@@ -93,7 +93,7 @@ var doc = `{
         }
     },
     "definitions": {
-        "forms.ReportForm": {
+        "forms.ReportRequestForm": {
             "type": "object",
             "properties": {
                 "deviceInfo": {
@@ -107,6 +107,29 @@ var doc = `{
                 "longitude": {
                     "type": "number",
                     "example": 126.96631451849314
+                }
+            }
+        },
+        "forms.ReportResponse": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "deviceInfo": {
+                    "type": "string",
+                    "example": "00:11:22:33:FF:EE"
+                },
+                "latitude": {
+                    "type": "number",
+                    "example": 37.5428147089301
+                },
+                "longitude": {
+                    "type": "number",
+                    "example": 126.96631451849314
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         },
@@ -133,26 +156,6 @@ var doc = `{
                     "description": "username field",
                     "type": "string",
                     "example": "01043214321"
-                }
-            }
-        },
-        "models.ReportDocument": {
-            "type": "object",
-            "properties": {
-                "deviceInfo": {
-                    "type": "string"
-                },
-                "latitude": {
-                    "type": "number"
-                },
-                "longitude": {
-                    "type": "number"
-                },
-                "recordedAudioURL": {
-                    "type": "string"
-                },
-                "reporterID": {
-                    "type": "integer"
                 }
             }
         }
