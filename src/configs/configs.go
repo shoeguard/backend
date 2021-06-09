@@ -23,4 +23,5 @@ var (
 	PSQL_PORT      = getEnv("PSQL_PORT", "5432")
 	PSQL_SSLMODE   = getEnv("PSQL_SSLMODE", "disable")
 	ENABLE_SWAGGER = getEnv("ENABLE_SWAGGER", "true")
+	PORT           = getEnv("PORT", "8080")
 )
