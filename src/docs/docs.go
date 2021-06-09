@@ -25,6 +25,29 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/report": {
+            "get": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Get reports from me or from my partners",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get reports",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/forms.ReportsResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -187,6 +210,20 @@ var doc = `{
                 },
                 "updated_at": {
                     "type": "string"
+                }
+            }
+        },
+        "forms.ReportsResponse": {
+            "type": "object",
+            "properties": {
+                "is_report_of_student": {
+                    "type": "boolean"
+                },
+                "reports": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/forms.ReportResponse"
+                    }
                 }
             }
         },
