@@ -36,6 +36,15 @@ definitions:
       updated_at:
         type: string
     type: object
+  forms.ReportsResponse:
+    properties:
+      is_report_of_student:
+        type: boolean
+      reports:
+        items:
+          $ref: '#/definitions/forms.ReportResponse'
+        type: array
+    type: object
   forms.UserRegistrationForm:
     properties:
       is_student:
@@ -61,6 +70,20 @@ info:
   version: "1.0"
 paths:
   /report:
+    get:
+      consumes:
+      - application/json
+      description: Get reports from me or from my partners
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/forms.ReportsResponse'
+      security:
+      - BasicAuth: []
+      summary: Get reports
     post:
       consumes:
       - application/json
