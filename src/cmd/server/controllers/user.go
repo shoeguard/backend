@@ -44,6 +44,7 @@ func Register(c *fiber.Ctx) error {
 			return c.Status(400).
 				JSON(map[string]interface{}{"error": "phone number duplicates", "detail": "the user with the same phone number already exists."})
 		}
+		return c.SendStatus(500)
 	}
 
 	return c.Status(201).JSON(form)
