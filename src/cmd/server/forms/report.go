@@ -17,3 +17,7 @@ type ReportResponse struct {
 	Latitude         float64   `json:"latitude"           example:"37.5428147089301"   valid:"required"`
 	Longitude        float64   `json:"longitude"          example:"126.96631451849314" valid:"required"`
 }
+
+type AddRecordedAudioURLForm struct {
+	AudioURL string `json:"audio_url"`
+}
