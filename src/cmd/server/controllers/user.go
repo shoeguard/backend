@@ -21,8 +21,8 @@ func getUser(phoneNumber string) (user models.User, err error) {
 // @Accept json
 // @Produce json
 // @Param body body forms.UserRegistrationForm true "body"
-// @Success 201 {object} forms.UserRegistrationForm
-// @Success 400 {object} customErrors.ErrorResponse
+// @Success 201 {object} forms.UserReadOnlyInfo
+// @Failure 400 {object} customErrors.ErrorResponse
 // @Router /users/register [post]
 func Register(c *fiber.Ctx) error {
 	form := forms.UserRegistrationForm{}
