@@ -1,4 +1,11 @@
 definitions:
+  customErrors.ErrorResponse:
+    properties:
+      detail:
+        type: string
+      error:
+        type: string
+    type: object
   forms.AddRecordedAudioURLForm:
     properties:
       audio_url:
@@ -81,6 +88,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/forms.ReportsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/customErrors.ErrorResponse'
       security:
       - BasicAuth: []
       summary: Get reports
@@ -102,6 +113,10 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/forms.ReportResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/customErrors.ErrorResponse'
       security:
       - BasicAuth: []
       summary: Report Request
@@ -129,6 +144,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/forms.ReportResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/customErrors.ErrorResponse'
       security:
       - BasicAuth: []
       summary: Add recorded audio url
@@ -151,6 +170,10 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/forms.UserRegistrationForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/customErrors.ErrorResponse'
       summary: Register an user with given information
 securityDefinitions:
   BasicAuth:
