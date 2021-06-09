@@ -12,8 +12,7 @@ import (
 )
 
 func SetupRoutes(app *fiber.App) {
-	envs := configs.GetEnvs()
-	if envs.ENABLE_SWAGGER == "true" {
+	if configs.ENABLE_SWAGGER == "true" {
 		app.Get("/swagger/*", swagger.Handler)
 		app.Get("/swagger", func(c *fiber.Ctx) error {
 			return c.Redirect("./swagger/")
