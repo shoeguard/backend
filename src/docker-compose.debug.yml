@@ -9,9 +9,10 @@ services:
         environment:
             POSTGRES_PASSWORD: example
     was:
+        build: .
         image: shoeguard-main
         restart: always
         ports:
-            - "8080:8080"
+            - "8080:80"
         environment:
             PSQL_HOST: postgresql
